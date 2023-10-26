@@ -1,6 +1,72 @@
 #include <iostream>
+#include <string>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
 
-int main(){
-  std::cout << "Ola Mundo" << '\n';
-  return 0;
+using namespace std; //usar pq tenho preguiça, nao e uma boa pratica
+
+vector<string> palavras = {"programacao", "computador", "algoritmo", "desenvolvedor", "openai"};
+const int maxTentativas = 6;
+
+string escolherPalavraAleatoria(const vector<string>& palavras) {
+    return palavras[rand() % palavras.size()];
+}
+
+void exibirForca(const string& palavra, const string& letrasAdivinhadas) {
+    for (char letra : palavra) {
+        if (letrasAdivinhadas.find(letra) != string::npos) {
+            cout << letra << " ";
+        } else {
+            cout << "_ ";
+        }
+    }
+    cout << endl;
+}
+
+int main() {
+   srand(static_cast<unsigned int>(time(nullptr)));
+    string palavraParaAdivinhar = escolherPalavraAleatoria(palavras);
+    string letrasAdivinhadas;
+    int tentativasRestantes = maxTentativas;
+
+    cout << "Bem-vindo ao Jogo da Forca!" << endl;
+
+    while (tentativasRestantes > 0) {
+        exibirForca(palavraParaAdivinhar, letrasAdivinhadas);
+        cout << "Tentativas restantes: " << tentativasRestantes << endl;
+
+        char palpite;
+        cout << "Adivinhe uma letra: ";
+        cin >> palpite;
+
+        if (letrasAdivinhadas.find(palpite) != string::npos) {
+            cout << "Você já adivinhou essa letra. Tente outra." << endl;
+        } else {
+            letrasAdivinhadas += palpite;
+            if (palavraParaAdivinhar.find(palpite) == string::npos) {
+                tentativasRestantes--;
+            }
+        }
+
+        bool palavraCompleta = true;
+        for (char letra : palavraParaAdivinhar) {
+            if (letrasAdivinhadas.find(letra) == string::npos) {
+                palavraCompleta = false;
+                break;
+            }
+        }
+
+        if (palavraCompleta) {
+            exibirForca(palavraParaAdivinhar, letrasAdivinhadas);
+            cout << "Parabéns! Você adivinhou a palavra: " << palavraParaAdivinhar << endl;
+            break;
+        }
+    }
+
+    if (tentativasRestantes == 0) {
+        cout << "Você perdeu! A palavra era: " << palavraParaAdivinhar << endl;
+    }
+
+    return 0;
 }
