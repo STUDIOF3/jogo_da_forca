@@ -6,7 +6,7 @@
 
 using namespace std; //usar pq tenho preguiça, nao e uma boa pratica
 
-vector<string> palavras = {"programacao", "computador", "algoritmo", "desenvolvedor", "openai"};
+vector<string> palavras = {"faculdade"};
 const int maxTentativas = 6;
 
 string escolherPalavraAleatoria(const vector<string>& palavras) {
